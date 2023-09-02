@@ -115,8 +115,11 @@
       signal-desktop
       nextcloud-client
       libreoffice-fresh
-      flameshot
       vlc
+      obsidian
+      nerdfonts
+      R
+      rstudio
     ];
   };
 
@@ -175,7 +178,6 @@
     elementary-music
     elementary-videos
     elementary-calendar
-    elementary-screenshot
   ];
 
   # Allow unfree packages
