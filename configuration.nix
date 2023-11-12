@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
-
+let
+  # Temporary fix for insecure electron use
+  obsidian = pkgs.obsidian.override { electron = pkgs.electron_25; };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -44,6 +47,9 @@
   services.thermald.enable = true;
   powerManagement.enable = true;
   services.upower.enable = true;
+
+  # SDD
+  services.fstrim.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -102,6 +108,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.anna = {
     isNormalUser = true;
@@ -113,13 +120,17 @@
       thunderbird
       git
       signal-desktop
+      caprine-bin
       nextcloud-client
-      libreoffice-fresh
+      libreoffice-fresh # Spellchecking broken
+      onlyoffice-bin
       vlc
       obsidian
       nerdfonts
       R
       rstudio
+      mendeley
+      github-desktop
     ];
   };
 
