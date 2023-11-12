@@ -130,7 +130,6 @@ in
       R
       rstudio
       mendeley
-      github-desktop
     ];
   };
 
