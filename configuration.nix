@@ -1,8 +1,4 @@
 { config, pkgs, ... }:
-let
-  # Temporary fix for insecure electron use
-  obsidian = pkgs.obsidian.override { electron = pkgs.electron_25; };
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -19,7 +15,6 @@ in
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.macAddress = "random";
   networking.networkmanager.ethernet.macAddress = "random";
-  networking.networkmanager.firewallBackend = "nftables";
   networking.firewall = {
     enable = true;
     allowedUDPPorts = [ 51820 ]; # Wireguard
@@ -74,12 +69,14 @@ in
 
   # Enable the Pantheon Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.pantheon.enable = true;
+  services.xserver.desktopManager.budgie.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "dk";
-    xkbVariant = "";
+    xkb = { 
+      variant = "";
+      layout = "dk";
+    };
   };
 
   # Configure console keymap
@@ -141,9 +138,9 @@ in
     programs.zsh = {
       enable = true;
       autocd = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       shellAliases = {
         icat="kitty +kitten icat";
         clip="kitty +kitten clipboard";
@@ -181,17 +178,13 @@ in
     xterm
   ];
 
-  environment.pantheon.excludePackages = with pkgs.pantheon; [
-    epiphany
-    elementary-mail
-    elementary-terminal
-    elementary-music
-    elementary-videos
-    elementary-calendar
-  ];
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Allow insecure electron
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
 
   programs.neovim = {
     enable = true;
